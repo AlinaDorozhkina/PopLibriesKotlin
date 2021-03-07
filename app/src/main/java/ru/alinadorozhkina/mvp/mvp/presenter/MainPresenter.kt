@@ -7,14 +7,14 @@ import ru.alinadorozhkina.mvp.mvp.presenter.list.IUserListPresenter
 import ru.alinadorozhkina.mvp.mvp.view.MainView
 import ru.alinadorozhkina.mvp.mvp.view.list.IUserItemView
 
-class MainPresenter(val repo: GitHubUsersRepo) : MvpPresenter<MainView>() {
+class MainPresenter(val userRepo: GitHubUsersRepo) : MvpPresenter<MainView>() {
 
     class UserListPresenter : IUserListPresenter {
         val users = mutableListOf<GitUser>()
         override var itemClickListener: ((IUserItemView) -> Unit)? = null
 
         override fun bindView(view: IUserItemView) {
-            val user = users[view.position]
+            val user = users[view.pos]
             view.setLogin(user.login)
         }
 
@@ -30,8 +30,8 @@ class MainPresenter(val repo: GitHubUsersRepo) : MvpPresenter<MainView>() {
     }
 
     private fun loadData() {
-        val users = repo.getUsers()
-        usersListPresenter.users.clear()
+        val users = userRepo.getUsers()
+        usersListPresenter.users.addAll(users)
         viewState.updateList()
     }
 }
