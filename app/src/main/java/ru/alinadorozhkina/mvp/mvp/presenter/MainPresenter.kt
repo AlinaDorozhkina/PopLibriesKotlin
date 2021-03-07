@@ -25,7 +25,7 @@ class MainPresenter(val repo: GitHubUsersRepo) : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-
+        viewState.init()
         loadData()
     }
 
