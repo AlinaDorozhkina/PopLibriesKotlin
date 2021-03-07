@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -21,6 +23,8 @@ android {
         viewBinding = true
     }
 
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,6 +38,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    apply plugin: "org.jetbrains.kotlin.android.extensions"
+
+    androidExtensions {
+        experimental = true
+    }
+
 }
 
 dependencies {
@@ -46,4 +57,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "com.github.moxy-community:moxy:2.1.2"
+    kapt "com.github.moxy-community:moxy-compiler:2.1.2"
+    implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
+    implementation "com.github.moxy-community:moxy-androidx:2.1.2"
+    implementation "com.github.moxy-community:moxy-ktx:2.1.2"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

@@ -1,14 +1,17 @@
 package ru.alinadorozhkina.mvp.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import ru.alinadorozhkina.mvp.databinding.ActivityMainBinding
+import ru.alinadorozhkina.mvp.mvp.model.CounterModel
 import ru.alinadorozhkina.mvp.mvp.presenter.MainPresenter
 import ru.alinadorozhkina.mvp.mvp.view.MainView
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity (), MainView {
 
-    private val presenter = MainPresenter(this)
+    private val presenter  by moxyPresenter { MainPresenter(CounterModel()) }
 
     private val ui: ActivityMainBinding
             by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -17,17 +20,9 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(ui.root)
 
-        ui.button1.setOnClickListener {
-            presenter.getButton1Value()
-        }
-
-        ui.button2.setOnClickListener {
-            presenter.getButton2Value()
-        }
-
-        ui.button3.setOnClickListener {
-            presenter.getButton3Value()
-        }
+        ui.button1.setOnClickListener { presenter.clickButton1() }
+        ui.button2.setOnClickListener { presenter.clickButton2() }
+        ui.button3.setOnClickListener { presenter.clickButton3() }
     }
 
     override fun setButton1Text(text: String) {
