@@ -1,23 +1,37 @@
 package ru.alinadorozhkina.mvp.mvp.presenter
 
 import moxy.MvpPresenter
-import ru.alinadorozhkina.mvp.mvp.model.CounterModel
+import ru.alinadorozhkina.mvp.mvp.model.GitHubUsersRepo
+import ru.alinadorozhkina.mvp.mvp.model.entity.GitUser
+import ru.alinadorozhkina.mvp.mvp.presenter.list.IUserListPresenter
 import ru.alinadorozhkina.mvp.mvp.view.MainView
+import ru.alinadorozhkina.mvp.mvp.view.list.IUserItemView
 
-class MainPresenter(val model: CounterModel): MvpPresenter<MainView>() {
+class MainPresenter(val repo: GitHubUsersRepo) : MvpPresenter<MainView>() {
 
-    fun clickButton1() {
-        val nextValue = model.next(0)
-        viewState.setButton1Text(nextValue.toString())
+    class UserListPresenter : IUserListPresenter {
+        val users = mutableListOf<GitUser>()
+        override var itemClickListener: ((IUserItemView) -> Unit)? = null
+
+        override fun bindView(view: IUserItemView) {
+            val user = users[view.position]
+            view.setLogin(user.login)
+        }
+
+        override fun getCount(): Int = users.size
     }
 
-    fun clickButton2() {
-        val nextValue = model.next(1)
-        viewState.setButton2Text(nextValue.toString())
+    val usersListPresenter = UserListPresenter()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+
+        loadData()
     }
 
-    fun clickButton3() {
-        val nextValue = model.next(2)
-        viewState.setButton3Text(nextValue.toString())
+    private fun loadData() {
+        val users = repo.getUsers()
+        usersListPresenter.users.clear()
+        viewState.updateList()
     }
 }
