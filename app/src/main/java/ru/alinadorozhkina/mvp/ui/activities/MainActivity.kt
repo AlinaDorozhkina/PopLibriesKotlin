@@ -1,39 +1,46 @@
 package ru.alinadorozhkina.mvp.ui.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import ru.alinadorozhkina.mvp.R
 import ru.alinadorozhkina.mvp.databinding.ActivityMainBinding
-import ru.alinadorozhkina.mvp.mvp.model.CounterModel
 import ru.alinadorozhkina.mvp.mvp.presenter.MainPresenter
 import ru.alinadorozhkina.mvp.mvp.view.MainView
+import ru.alinadorozhkina.mvp.ui.App
+import ru.alinadorozhkina.mvp.ui.BackClickListener
+import ru.alinadorozhkina.mvp.ui.navigation.AndroidScreens
 
-class MainActivity : MvpAppCompatActivity (), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
-    private val presenter  by moxyPresenter { MainPresenter(CounterModel()) }
-
-    private val ui: ActivityMainBinding
-            by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    val navigator = AppNavigator(this, R.id.container)
+    private var vb: ActivityMainBinding? = null
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(ui.root)
-
-        ui.button1.setOnClickListener { presenter.clickButton1() }
-        ui.button2.setOnClickListener { presenter.clickButton2() }
-        ui.button3.setOnClickListener { presenter.clickButton3() }
+        vb = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(vb?.root)
     }
 
-    override fun setButton1Text(text: String) {
-        ui.button1.text = text
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigatorHolder.setNavigator(navigator)
     }
 
-    override fun setButton2Text(text: String) {
-        ui.button2.text = text
+    override fun onPause() {
+        super.onPause()
+        App.instance.navigatorHolder.removeNavigator()
     }
 
-    override fun setButton3Text(text: String) {
-        ui.button3.text = text
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if (it is BackClickListener && it.backPressed()) {
+                return
+            }
+        }
+        presenter.backClicked()
     }
+
 }
