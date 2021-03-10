@@ -4,11 +4,12 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.alinadorozhkina.mvp.mvp.model.GitHubUsersRepo
 import ru.alinadorozhkina.mvp.mvp.model.entity.GitUser
+import ru.alinadorozhkina.mvp.mvp.navigation.IScreens
 import ru.alinadorozhkina.mvp.mvp.presenter.list.IUserListPresenter
 import ru.alinadorozhkina.mvp.mvp.view.UsersView
 import ru.alinadorozhkina.mvp.mvp.view.list.IUserItemView
 
-class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router) :
+class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router,val screens: IScreens) :
     MvpPresenter<UsersView>() {
 
     class UserListPresenter : IUserListPresenter {
@@ -29,6 +30,11 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router) :
         super.onFirstViewAttach()
         viewState.init()
         loadData()
+
+        usersListPresenter.itemClickListener = { itemView ->
+            val user = usersListPresenter.users[itemView.pos]
+            router.navigateTo(screens.user(user))
+        }
     }
 
     private fun loadData() {
