@@ -15,6 +15,7 @@ import kotlin.random.Random
  */
 
 class Testing {
+
     fun exec() {
         Consumer(Producer()).execFlatMap() // вывод в консоль I/System.out: OnNext flatMap [2x, 1x, 3x, 4x]
         Consumer(Producer()).execSwitchMap() //вывод в консоль I/System.out: OnNext SwitchMap [4x]
@@ -24,7 +25,7 @@ class Testing {
         fun just(): Observable<String> = Observable.just("1", "2", "3", "4")
     }
 
-    class Consumer(val producer: Producer) {
+    class Consumer(private val producer: Producer) {
 
         fun execFlatMap() {
             val testScheduler = TestScheduler()
