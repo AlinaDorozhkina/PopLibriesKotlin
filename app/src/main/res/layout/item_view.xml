@@ -10,7 +10,8 @@
         android:id="@+id/tv_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_padding_size_small"
+        style="@style/main_text"
         tools:text="логин" />
 
 </LinearLayout>

@@ -47,5 +47,4 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router,val scree
         router.exit()
         return true
     }
-
 }

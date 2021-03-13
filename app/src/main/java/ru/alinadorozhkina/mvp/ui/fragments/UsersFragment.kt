@@ -2,8 +2,8 @@ package ru.alinadorozhkina.mvp.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -14,6 +14,7 @@ import ru.alinadorozhkina.mvp.mvp.view.UsersView
 import ru.alinadorozhkina.mvp.ui.App
 import ru.alinadorozhkina.mvp.ui.BackClickListener
 import ru.alinadorozhkina.mvp.ui.adapters.UsersRVAdapter
+import ru.alinadorozhkina.mvp.ui.navigation.AndroidScreens
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
 
@@ -21,7 +22,13 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
         fun newInstance() = UsersFragment()
     }
 
-    private val presenter by moxyPresenter { UsersPresenter(GitHubUsersRepo(), App.instance.router) }
+    private val presenter by moxyPresenter {
+        UsersPresenter(
+            GitHubUsersRepo(),
+            App.instance.router,
+            AndroidScreens()
+        )
+    }
 
     private var ui: FragmentUsersBinding? = null
 
@@ -37,6 +44,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
 
     override fun init() {
         ui?.rvUsers?.layoutManager = LinearLayoutManager(requireContext())
+        ui?.rvUsers?.addItemDecoration((DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL)))
         adapter = UsersRVAdapter(presenter.usersListPresenter)
         ui?.rvUsers?.adapter = adapter
     }

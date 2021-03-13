@@ -7,8 +7,10 @@
         android:id="@+id/rv_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
+        android:paddingTop="@dimen/margin_padding_size_medium"
+        android:layout_margin="@dimen/margin_padding_size_medium"
         android:clipToPadding="false"
-        android:paddingBottom="16dp" />
+        style="@style/header_text"
+        android:paddingBottom="@dimen/margin_padding_size_medium" />
 
 </RelativeLayout>

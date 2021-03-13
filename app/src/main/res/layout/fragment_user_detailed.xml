@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/margin_padding_size_small"
     tools:context=".ui.fragments.UserDetailedFragment">
-
 
     <TextView
         android:id="@+id/tv_user_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20sp"
+        style="@style/main_text"
         android:textAlignment="center" />
 
 </LinearLayout>
