@@ -56,6 +56,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         ui = null
+        presenter.dispose()
     }
 
     override fun backPressed() = presenter.backClicked()

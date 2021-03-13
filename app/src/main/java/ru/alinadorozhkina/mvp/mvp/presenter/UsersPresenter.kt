@@ -1,6 +1,11 @@
 package ru.alinadorozhkina.mvp.mvp.presenter
 
+
+import android.util.Log
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.alinadorozhkina.mvp.mvp.model.GitHubUsersRepo
 import ru.alinadorozhkina.mvp.mvp.model.entity.GitUser
@@ -9,7 +14,8 @@ import ru.alinadorozhkina.mvp.mvp.presenter.list.IUserListPresenter
 import ru.alinadorozhkina.mvp.mvp.view.UsersView
 import ru.alinadorozhkina.mvp.mvp.view.list.IUserItemView
 
-class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router,val screens: IScreens) :
+
+class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router, val screens: IScreens) :
     MvpPresenter<UsersView>() {
 
     class UserListPresenter : IUserListPresenter {
@@ -25,6 +31,7 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router,val scree
     }
 
     val usersListPresenter = UserListPresenter()
+    private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -38,13 +45,21 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router,val scree
     }
 
     private fun loadData() {
-        val users = userRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        disposable = userRepo.getUsers().subscribe({
+            usersListPresenter.users.add(it)
+        }, {
+            it.printStackTrace()
+        }, {
+            viewState.updateList()
+        })
     }
 
     fun backClicked(): Boolean {
         router.exit()
         return true
+    }
+
+    fun dispose() {
+        disposable?.dispose()
     }
 }

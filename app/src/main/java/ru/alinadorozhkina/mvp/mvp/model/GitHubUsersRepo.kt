@@ -1,5 +1,6 @@
 package ru.alinadorozhkina.mvp.mvp.model
 
+import io.reactivex.rxjava3.core.Observable
 import ru.alinadorozhkina.mvp.mvp.model.entity.GitUser
 
 class GitHubUsersRepo {
@@ -11,5 +12,5 @@ class GitHubUsersRepo {
         GitUser("login5")
     )
 
-    fun getUsers(): List<GitUser> = users
+    fun getUsers(): Observable<GitUser> = Observable.fromIterable(users)
 }
