@@ -15,7 +15,6 @@ import kotlin.random.Random
  */
 
 class Testing {
-
     fun exec() {
         Consumer(Producer()).execFlatMap() // вывод в консоль I/System.out: OnNext flatMap [2x, 1x, 3x, 4x]
         Consumer(Producer()).execSwitchMap() //вывод в консоль I/System.out: OnNext SwitchMap [4x]
