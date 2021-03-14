@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MVP</string>
+    <string name="counter1">Счетчик 1</string>
+    <string name="counter2">Счетчик 2</string>
+    <string name="counter3">Счетчик 3</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

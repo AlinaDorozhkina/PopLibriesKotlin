@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin_padding_size_small"
+    tools:context=".ui.fragments.UserDetailedFragment">
+
+    <TextView
+        android:id="@+id/tv_user_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/main_text"
+        android:textAlignment="center" />
+
+</LinearLayout>
