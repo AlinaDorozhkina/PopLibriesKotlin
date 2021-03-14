@@ -1,10 +1,7 @@
 package ru.alinadorozhkina.mvp.mvp.presenter
 
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.alinadorozhkina.mvp.mvp.model.GitHubUsersRepo
@@ -59,7 +56,8 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router, val scre
         return true
     }
 
-    fun dispose() {
+    override fun onDestroy() {
         disposable?.dispose()
+        super.onDestroy()
     }
 }
