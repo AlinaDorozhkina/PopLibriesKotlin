@@ -43,7 +43,7 @@ class UsersPresenter(val userRepo: GitHubUsersRepo, val router: Router, val scre
 
     private fun loadData() {
         disposable = userRepo.getUsers().subscribe({
-            usersListPresenter.users.add(it)
+            usersListPresenter.users.addAll(it)
         }, {
             it.printStackTrace()
         }, {

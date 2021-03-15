@@ -12,5 +12,5 @@ class GitHubUsersRepo {
         GitUser("login5")
     )
 
-    fun getUsers(): Observable<GitUser> = Observable.fromIterable(users)
+    fun getUsers(): Observable<List<GitUser>> = Observable.just(users)
 }
